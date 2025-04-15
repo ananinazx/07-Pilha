@@ -1,27 +1,28 @@
 #include <iostream>
 using namespace std;
-
+ 
 // definicao de tipo
 struct NO {
 	int valor;
+	NO* ant;
 	NO* prox;
 };
-
+ 
 NO* topo = NULL;
-
+ 
 // headers
 void menu();
 void inicializar();
 void pop();
 void push();
 //--------------------------
-
-
+ 
+ 
 int main()
 {
 	menu();
 }
-
+ 
 void menu()
 {
 	int op = 0;
@@ -33,11 +34,11 @@ void menu()
 		cout << "2 - Inserir elemento (Push) \n";
 		cout << "3 - Remover elementos (Pop) \n";
 		cout << "4 - Sair \n";
-
-
+ 
+ 
 		cout << "Opcao: ";
 		cin >> op;
-
+ 
 		switch (op)
 		{
 		case 1: inicializar();
@@ -51,15 +52,15 @@ void menu()
 		default:
 			break;
 		}
-
+ 
 		system("pause"); // somente no windows
 	}
 }
-
+ 
 void inicializar()
 {
-
-	// se a lista já possuir elementos
+ 
+	// se a lista jÃ¡ possuir elementos
 	// libera a memoria ocupada
 	NO* aux = topo;
 	while (aux != NULL) {
@@ -67,13 +68,13 @@ void inicializar()
 		aux = aux->prox;
 		free(paraExcluir);
 	}
-
+ 
 	topo = NULL;
 	cout << "Pilha inicializada \n";
-
+ 
 }
-
-
+ 
+ 
 void push()
 {
 	// aloca memoria dinamicamente para o novo elemento
@@ -82,18 +83,28 @@ void push()
 	{
 		return;
 	}
-
+ 
 	cout << "Digite o elemento: ";
 	cin >> novo->valor;
-	novo->prox = NULL;
-
-
+	novo->ant = topo;
+ 
+	topo = novo;
+ 
+	cout << "Elemento " << novo->valor << "inserido na pilha.\n";
+ 
 }
-
+ 
 void pop()
 {
-
-	
-
+	if (topo == NULL) {
+		cout << "Pilha Vazia\n";
+		return;
+	}
+ 
+	NO* temp = topo;
+	topo = topo->ant;
+	cout << "Elemento removido: " << temp->valor << endl;
+ 
+	free(temp);
 }
 
